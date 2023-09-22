@@ -216,7 +216,7 @@
 
                                         <div class="col-12 mb-4 mb-sm-4 mb-md-4 mb-lg-4">
                                             <div class="trade-result">
-                                                <h2>Crude Oil WTI
+                                                <h2>BTC
                                                 @if(isset($activeTrade) && $activeTrade != null)
                                                     @if($activeTrade->trade_type =="Buy")
 {{--                                                        @if(isset($profit_loss) && $profit_loss != null)--}}
