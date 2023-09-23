@@ -5,7 +5,7 @@
     Name: {{ $mailData['name'] }}
     Email: {{ $mailData['email'] }}
 
-    Visit Site Here :  https://contest.iv-capital.com/
+    Visit Site Here :  {{env('APP_URL')}}
 
     Thanks
 
