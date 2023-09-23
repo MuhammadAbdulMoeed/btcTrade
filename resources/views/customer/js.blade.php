@@ -66,7 +66,7 @@
         }
 
         // Calculate the end time as 2 hours and 15 minutes from the initial start time
-        const endTime = startTime + 2 * hour + 15 * minute;
+        const endTime = startTime + 2 * hour + 5 * minute;
 
         const x = setInterval(function () {
             const now = new Date().getTime();
