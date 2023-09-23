@@ -48,64 +48,55 @@
     // document.getElementById("initials2").textContent = initials2;
 
 
-     (function () {
-         const second = 1000,
-             minute = second * 60,
-             hour = minute * 60;
+    (function () {
+        const second = 1000,
+            minute = second * 60,
+            hour = minute * 60;
 
-         let today = new Date(),
-             dd = String(today.getDate()).padStart(2, "0"),
-             mm = String(today.getMonth() + 1).padStart(2, "0"),
-             yyyy = today.getFullYear(),
-             nextDay = new Date(today); // Create a new Date object for the next day
-         nextDay.setDate(nextDay.getDate() + 1); // Set it to the next day
+        // Check if the initial start time is stored in local storage
+        let startTime = localStorage.getItem('startTime');
 
-// Calculate the start time as the current time
-         let startTime = today.getTime();
+        if (!startTime) {
+            // If not stored, set the initial start time as the current time
+            startTime = new Date().getTime();
+            localStorage.setItem('startTime', startTime);
+        } else {
+            // If stored, parse it as a number
+            startTime = parseInt(startTime, 10);
+        }
 
-// Calculate the end time as 4 hours from now
-         let endTime = new Date(today.getTime() + 4 * hour + 5 * minute).getTime();
+        // Calculate the end time as 2 hours and 15 minutes from the initial start time
+        const endTime = startTime + 2 * hour + 15 * minute;
 
-// Check if the current time is past the calculated end time, if so, set it for the next day
-         if (today.getTime() >= endTime) {
-             startTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 0, 0, 0).getTime();
-             endTime = new Date(nextDay.getTime() + 4 * hour + 5 * minute).getTime();
-         }
+        const x = setInterval(function () {
+            const now = new Date().getTime();
+            const distance = endTime - now;
 
-         const x = setInterval(function() {
-             const now = new Date().getTime();
+            const hours = Math.floor(distance / hour);
+            const minutes = Math.floor((distance % hour) / minute);
+            const seconds = Math.floor((distance % minute) / second);
 
-             if (now >= endTime) {
-                 // Time has passed the calculated end time, set it for the next day
-                 startTime = new Date(nextDay.getFullYear(), nextDay.getMonth(), nextDay.getDate(), 0, 0, 0).getTime();
-                 endTime = new Date(nextDay.getTime() + 4 * hour + 5 * minute).getTime();
-             }
+            document.getElementById("hours").innerText = hours;
+            document.getElementById("minutes").innerText = minutes;
+            document.getElementById("seconds").innerText = seconds;
 
-             const distance = endTime - now;
+            // Select elements by class name
+            document.getElementById("hours1").innerText = hours;
+            document.getElementById("minutes1").innerText = minutes;
+            document.getElementById("seconds1").innerText = seconds;
 
-             const hours = Math.floor(distance / hour);
-             const minutes = Math.floor((distance % hour) / minute);
-             const seconds = Math.floor((distance % minute) / second);
+            // Do something later when time is reached
+            if (distance <= 0) {
+                // document.getElementById("headline").innerText = "It's 6 PM!";
+                document.getElementById("countdown").style.display = "none";
+                document.getElementById("countdown2").style.display = "none";
+                // document.getElementById("content").style.display = "block";
+                clearInterval(x);
+            }
+        }, 0);
+    })();
 
-             document.getElementById("hours").innerText = hours;
-             document.getElementById("minutes").innerText = minutes;
-             document.getElementById("seconds").innerText = seconds;
 
-             // Select elements by class name
-             document.getElementById("hours1").innerText = hours;
-             document.getElementById("minutes1").innerText = minutes;
-             document.getElementById("seconds1").innerText = seconds;
-
-             //do something later when time is reached
-             if (distance <= 0) {
-                 // document.getElementById("headline").innerText = "It's 6 PM!";
-                 document.getElementById("countdown").style.display = "none";
-                 document.getElementById("countdown2").style.display = "none";
-                 //document.getElementById("content").style.display = "block";
-                 clearInterval(x);
-             }
-         }, 0);
-     })();
 
 
     /*
